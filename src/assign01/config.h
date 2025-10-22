@@ -2,7 +2,7 @@
 #define CONFIG_H
 
 #include <Arduino.h>
-#include <LiquidCrystal.h>
+#include <LiquidCrystal_I2C.h>
 
 /* === Pin definitions === */
 #define LED_L1 2
@@ -24,6 +24,6 @@
 #define LS_PULSE_STEP 5
 
 /* === LCD configuration === */
-extern LiquidCrystal lcd;
+extern LiquidCrystal_I2C lcd;
 
 #endif
