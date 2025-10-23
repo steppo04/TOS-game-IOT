@@ -2,16 +2,12 @@
 
 LiquidCrystal_I2C lcd(0x27,20,4); 
 
-int brightness = 0;
+int currIntensity = 0;
 int fadeAmount = 5;
 unsigned long lastPulseTime = 0;
 
 void initHardware() {
-  //Initialize led pins
-  pinMode(LED_L1, OUTPUT);
-  pinMode(LED_L2, OUTPUT);
-  pinMode(LED_L3, OUTPUT);
-  pinMode(LED_L4, OUTPUT);
+  //Initialize led pin
   pinMode(LED_LS, OUTPUT);
 
   //Initialize button pins
@@ -34,29 +30,55 @@ void showWelcomeMessage() {
   lcd.print("Press B1 to start...");
 }
 
-void turnOffAllLeds() {
-  digitalWrite(LED_L1, LOW);
-  digitalWrite(LED_L2, LOW);
-  digitalWrite(LED_L3, LOW);
-  digitalWrite(LED_L4, LOW);
-}
-
-void setLed(int id, bool on) {
-  int pin = LED_L1 + (id - 1);
-  digitalWrite(pin, on? HIGH : LOW);
-}
-
 void pulseLedS() {
   if (millis() - lastPulseTime > LS_PULSE_DELAY) {
-    analogWrite(LED_PIN, currIntensity);   
+    analogWrite(LED_LS, currIntensity);  
+    lastPulseTime = millis(); 
     currIntensity = currIntensity + fadeAmount;
     if (currIntensity == 0 || currIntensity == 255) {
       fadeAmount = -fadeAmount ; 
     }    
   }
-
 }
 
-void enterDeepSleep() {
+void showGoodMessage() {
+  lcd.clear();
+  lcd.print("GOOD! Score: ");
+  lcd.print(score);
+  delay(500);
+}
 
+void showSequenceOnLCD() {
+  lcd.clear();
+  for (int i = 0; i < 4; i++) {
+    lcd.print(sequence[i]);
+  }
+}
+
+void wakeUp() {}
+
+void enterDeepSleep() {
+  analogWrite(LED_LS, 0);
+  lcd.clear();
+  lcd.noBacklight();
+
+  delay(100);
+
+  set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+
+  attachInterrupt(digitalPinToInterrupt(BTN_B1), wakeUp, LOW);
+
+  sleep_enable();
+
+  //noInterrupts();
+  //interrupts();
+  sleep_mode();
+
+  sleep_disable();
+
+  detachInterrupt(digitalPinToInterrupt(BTN_B1));
+
+  lcd.backlight();
+  lcd.clear();
+  showWelcomeMessage();
 }

@@ -2,14 +2,16 @@
 #define OUTPUT_H
 
 #include "config.h"
+#include <avr/sleep.h>
+#include <avr/interrupt.h>
 /*initialize leds and buttons*/
 void initHardware();
 /*initialize LCD*/
 void lcdInit();
 void showWelcomeMessage();
-void turnOffAllLeds();
-void setLed(int id, bool on);
 void pulseLedS();
 void enterDeepSleep();
+void showGoodMessage();
+void showSequenceOnLCD();
 
 #endif
