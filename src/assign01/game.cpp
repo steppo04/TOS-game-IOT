@@ -52,13 +52,21 @@ void generateSequence() {
 }
 
 bool playRound() {
-
+  
 }
 
 bool isGameOver() {
-
+  return gameOverFlag;
 }
 
 void handleGameOver() {
-
+  turnOffAllLeds();
+  digitalWrite(LED_LS, HIGH);
+  lcd.clear();
+  lcd.print("Game Over");
+  lcd.setCursor(0, 1);
+  lcd.print("Score: ");
+  lcd.print(score);
+  delay(2000);
+  digitalWrite(LED_LS, LOW);
 }
