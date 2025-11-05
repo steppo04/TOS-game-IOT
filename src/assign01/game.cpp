@@ -2,8 +2,9 @@
 #include "output.h"
 #include "input.h"
 
+int sequence[4];
 int playerIndex;
-int F;
+double F;
 int score;
 unsigned long timeLimit;
 unsigned long roundStartTime;
@@ -13,26 +14,28 @@ void startGame() {
   playerIndex = 0;
   score = 0;
   gameOverFlag = false;
-  timeLimit = BASE_T1;
+  F = setTimeLimitDifficulty();
+  timeLimit = BASE_T1 * F;
   setTimeLimitDifficulty();
   lcd.clear();
   lcd.print("Go!");
-  delay(1000);
+  int startTime=millis(); 
+  while(millis() - startTime < 2000) { /*wait*/ }
 }
 
-void setTimeLimitDifficulty() {
+double setTimeLimitDifficulty() {
   switch(readDifficulty()) {
     case 1:
-      F = 0.9;
+      return 1;
       break;
     case 2:
-      F = 0.7;
+      return 0.7;
       break;
     case 3:
-      F = 0.5;
+      return 0.5;
       break;
     case 4:
-      F = 0.3;
+      return 0.3;
       break;
       
   }
@@ -54,26 +57,23 @@ void generateSequence() {
 bool playRound() {
     generateSequence();
     showSequenceOnLCD();
-    //turnOffAllLeds();
     playerIndex= 0;
     roundStartTime=millis(); 
     
-    while(millis() - roundStartTime < TimeLimit) {
-    
-    readInputs();
-    int pressed = getButtonPressed();
-    if (pressed > 0) {
-    if (pressed == sequence[playerIndex]) {
-        //setLed(pressed,true); 
-        playerIndex++;
-        if (playerIndex == 4) {
-            score++;
-            timeLimit*=F;
-            return true;            
-        }
-    } else {
-        gameOverFlag=true;
-        return false;    
+    while(millis() - roundStartTime < timeLimit) {
+      readInputs();
+      int pressed = getButtonPressed();
+      if (pressed > 0) {
+        if (pressed == sequence[playerIndex]) {
+            playerIndex++;
+            if (playerIndex == 4) {
+                score++;
+                timeLimit*=F;
+                return true;            
+            }
+        } else {
+            gameOverFlag=true;
+            return false;    
         }    
       }
     }
@@ -87,12 +87,11 @@ bool isGameOver() {
 }
 
 void handleGameOver() {
-  digitalWrite(LED_LS, HIGH);
   lcd.clear();
+  digitalWrite(LED_LS, HIGH);
   lcd.print("Game Over");
   lcd.setCursor(0, 1);
   lcd.print("Score: ");
   lcd.print(score);
-  delay(2000);
   digitalWrite(LED_LS, LOW);
 }

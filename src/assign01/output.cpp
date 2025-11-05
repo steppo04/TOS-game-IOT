@@ -45,7 +45,8 @@ void showGoodMessage() {
   lcd.clear();
   lcd.print("GOOD! Score: ");
   lcd.print(score);
-  delay(500);
+  int startTime=millis(); 
+  while(millis() - startTime < 4000) { /*wait*/ }
 }
 
 void showSequenceOnLCD() {
@@ -55,30 +56,8 @@ void showSequenceOnLCD() {
   }
 }
 
-void wakeUp() {}
-
-void enterDeepSleep() {
-  analogWrite(LED_LS, 0);
-  lcd.clear();
-  lcd.noBacklight();
-
-  delay(100);
-
-  set_sleep_mode(SLEEP_MODE_PWR_DOWN);
-
-  attachInterrupt(digitalPinToInterrupt(BTN_B1), wakeUp, LOW);
-
-  sleep_enable();
-
-  //noInterrupts();
-  //interrupts();
-  sleep_mode();
-
-  sleep_disable();
-
-  detachInterrupt(digitalPinToInterrupt(BTN_B1));
-
-  lcd.backlight();
-  lcd.clear();
-  showWelcomeMessage();
+void showLevel() {
+  lcd.setCursor(0,3);
+  lcd.print("Level -> ");
+  lcd.print(readDifficulty());
 }

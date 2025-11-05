@@ -1,6 +1,6 @@
 #include "input.h"
 
-bool buttons[4]={false,false,false,false};
+bool buttons[4] = {false, false, false, false};
 
 void readInputs() {
     buttons[0] = digitalRead(BTN_B1) == LOW;
@@ -14,7 +14,7 @@ bool buttonPressed(int pin){
 }
 
 int getButtonPressed(){
-    for (int i=0 ;i < 4;i++) {
+    for (int i=0; i < 4; i++) {
         if (buttons[i]) return i+1;
     }
     return 0;
@@ -22,5 +22,5 @@ int getButtonPressed(){
 
 int readDifficulty(){
     int potvalue=analogRead(POT_PIN);
-    return map(potvalue,0,660,1,4);
+    return map(potvalue,0,660,1,3);
 }
