@@ -52,7 +52,34 @@ void generateSequence() {
 }
 
 bool playRound() {
+    generateSequence();
+    showSequenceOnLCD();
+    //turnOffAllLeds();
+    playerIndex= 0;
+    roundStartTime=millis(); 
+    
+    while(millis() - roundStartTime < TimeLimit) {
+    
+    readInputs();
+    int pressed = getButtonPressed();
+    if (pressed > 0) {
+    if (pressed == sequence[playerIndex]) {
+        //setLed(pressed,true); 
+        playerIndex++;
+        if (playerIndex == 4) {
+            score++;
+            timeLimit*=F;
+            return true;            
+        }
+    } else {
+        gameOverFlag=true;
+        return false;    
+        }    
+      }
+    }
 
+    gameOverFlag=true;
+    return false;
 }
 
 bool isGameOver() {
