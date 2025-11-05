@@ -12,9 +12,11 @@ enum GameState {
 };
 
 void startGame();
+void setTimeLimitDifficulty();
 bool playRound();
 bool isGameOver();
 void handleGameOver();
 void generateSequence();
+
 
 #endif

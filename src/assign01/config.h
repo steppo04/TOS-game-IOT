@@ -15,7 +15,7 @@
 #define POT_PIN A0
 
 /* Game parameters */
-#define BASE_T1 5000
+#define BASE_T1 8000
 #define LS_PULSE_DELAY 20
 #define LS_PULSE_STEP 5
 

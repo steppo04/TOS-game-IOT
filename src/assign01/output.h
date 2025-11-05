@@ -4,9 +4,8 @@
 #include "config.h"
 #include <avr/sleep.h>
 #include <avr/interrupt.h>
-/*initialize leds and buttons*/
+
 void initHardware();
-/*initialize LCD*/
 void lcdInit();
 void showWelcomeMessage();
 void pulseLedS();
