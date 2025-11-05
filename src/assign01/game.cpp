@@ -16,7 +16,7 @@ void startGame() {
   timeLimit = BASE_T1;
   setTimeLimitDifficulty();
   lcd.clear();
-  lcd.show("Go!");
+  lcd.print("Go!");
   delay(1000);
 }
 
@@ -52,7 +52,7 @@ void generateSequence() {
 }
 
 bool playRound() {
-  
+
 }
 
 bool isGameOver() {
@@ -60,7 +60,6 @@ bool isGameOver() {
 }
 
 void handleGameOver() {
-  turnOffAllLeds();
   digitalWrite(LED_LS, HIGH);
   lcd.clear();
   lcd.print("Game Over");
