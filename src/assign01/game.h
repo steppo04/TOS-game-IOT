@@ -11,13 +11,10 @@ enum GameState {
   STATE_GAME_OVER
 };
 
-/* === Game control functions === */
 void startGame();
 bool playRound();
 bool isGameOver();
 void handleGameOver();
-void showGoodMessage();
 void generateSequence();
-void showSequenceOnLCD();
 
 #endif
