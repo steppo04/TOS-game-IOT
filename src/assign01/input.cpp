@@ -1,26 +1,43 @@
 #include "input.h"
 
-bool buttons[4] = {false, false, false, false};
+#define DEBOUNCE_DELAY 50
+
+int buttonPins[4] = {BTN_B1, BTN_B2, BTN_B3, BTN_B4};
+bool buttonState[4] = {false, false, false, false};
+bool lastButtonState[4] = {false, false, false, false};
+unsigned long lastDebounceTime[4] = {0, 0, 0, 0};
 
 void readInputs() {
-    buttons[0] = digitalRead(BTN_B1) == LOW;
-    buttons[1] = digitalRead(BTN_B2) == LOW;
-    buttons[2] = digitalRead(BTN_B3) == LOW;
-    buttons[3] = digitalRead(BTN_B4) == LOW;
-}
-
-bool buttonPressed(int pin){
-    return digitalRead(pin) == LOW;
-}
-
-int getButtonPressed(){
-    for (int i=0; i < 4; i++) {
-        if (buttons[i]) return i+1;
+  for (int i = 0; i < 4; i++) {
+    bool reading = (digitalRead(buttonPins[i]) == LOW);
+    if (reading != lastButtonState[i]) {
+      lastDebounceTime[i] = millis();
+      lastButtonState[i] = reading;
     }
-    return 0;
+    if ((millis() - lastDebounceTime[i]) > DEBOUNCE_DELAY) {
+      buttonState[i] = reading;
+    }
+  }
 }
 
-int readDifficulty(){
-    int potvalue=analogRead(POT_PIN);
-    return map(potvalue,0,660,1,3);
+int getButtonPressed() {
+  static bool prevPressed[4] = {false, false, false, false};
+  for (int i = 0; i < 4; i++) {
+    if (buttonState[i] && !prevPressed[i]) {
+      prevPressed[i] = true;
+      return i + 1;
+    } else if (!buttonState[i]) {
+      prevPressed[i] = false;
+    }
+  }
+  return 0;
+}
+
+bool buttonPressed(int pin) {
+  return digitalRead(pin) == LOW;
+}
+
+int readDifficulty() {
+  int potvalue = analogRead(POT_PIN);
+  return map(potvalue, 0, 660, 1, 3);
 }

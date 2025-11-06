@@ -25,19 +25,11 @@ void startGame() {
 
 double setTimeLimitDifficulty() {
   switch(readDifficulty()) {
-    case 1:
-      return 1;
-      break;
-    case 2:
-      return 0.7;
-      break;
-    case 3:
-      return 0.5;
-      break;
-    case 4:
-      return 0.3;
-      break;
-      
+    case 1: return 1.0;
+    case 2: return 0.9;
+    case 3: return 0.8;
+    case 4: return 0.7;
+    default: return 1.0;
   }
 }
 
@@ -56,7 +48,8 @@ void generateSequence() {
 
 bool playRound() {
     generateSequence();
-    showSequenceOnLCD();
+    showSequenceOnLCD(); //4231
+
     playerIndex= 0;
     roundStartTime=millis(); 
     
@@ -64,6 +57,9 @@ bool playRound() {
       readInputs();
       int pressed = getButtonPressed();
       if (pressed > 0) {
+        //Serial.println("btn pressed " + (String)pressed);
+        //Serial.println("btn computed " + (String)sequence[playerIndex]); 
+        //Serial.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
         if (pressed == sequence[playerIndex]) {
             playerIndex++;
             if (playerIndex == 4) {
@@ -87,11 +83,16 @@ bool isGameOver() {
 }
 
 void handleGameOver() {
-  lcd.clear();
   digitalWrite(LED_LS, HIGH);
+  lcd.clear();
   lcd.print("Game Over");
   lcd.setCursor(0, 1);
   lcd.print("Score: ");
   lcd.print(score);
-  digitalWrite(LED_LS, LOW);
+  int gaOvTime=millis();
+  while(millis() - gaOvTime < 10000) {
+    if (millis() - gaOvTime == 2000) {
+        digitalWrite(LED_LS, LOW);
+    }
+  }
 }

@@ -8,10 +8,10 @@
 
 GameState currentState = STATE_IDLE;
 unsigned long lastActionTime = 0;
-int gaOvTime = 0;
 int stRouTime = 0;
 
 void setup() {
+  Serial.begin(9600);
   initHardware();
   lcdInit();
   showWelcomeMessage();
@@ -29,6 +29,7 @@ void loop() {
       showLevel();
       if (buttonPressed(BTN_B1)) {
         currentState = STATE_START;
+        analogWrite(LED_LS, 0); 
         lastActionTime = millis();
       } /*else if (millis() - lastActionTime > 10000) {
         enterDeepSleep();
@@ -50,15 +51,11 @@ void loop() {
 
     case STATE_ROUND_OK:
       showGoodMessage();
-      stRouTime = millis();
-      while(millis() - stRouTime < 1000) { /*wait*/ }
       currentState = STATE_PLAYING;
       break;
 
     case STATE_GAME_OVER:
       handleGameOver();
-      gaOvTime=millis(); 
-      while(millis() - gaOvTime < 10000) { /*wait*/ }
       currentState = STATE_IDLE;
       lcd.clear();
       showWelcomeMessage();
