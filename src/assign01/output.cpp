@@ -48,7 +48,6 @@ void showGoodMessage() {
   unsigned long startTime = millis();
   while(millis() - startTime < 4000) {
     readInputs();
-    //resetButtons();
   }
 }
 

@@ -1,6 +1,4 @@
 #include "game.h"
-#include "output.h"
-#include "input.h"
 
 int sequence[4];
 int playerIndex;
@@ -47,7 +45,6 @@ void generateSequence() {
 }
 
 bool playRound() {
-    //resetButtons();
     generateSequence();
     showSequenceOnLCD();
 
@@ -58,11 +55,6 @@ bool playRound() {
       readInputs();
       int pressed = getButtonPressed();
       if (pressed > 0) {
-        /*+++++DEBUG+++++
-        Serial.println("btn pressed " + (String)pressed);
-        Serial.println("btn computed " + (String)sequence[playerIndex]); 
-        Serial.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-        /*+++++++++++++++*/
         if (pressed == sequence[playerIndex]) {
             playerIndex++;
             if (playerIndex == 4) {

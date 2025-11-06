@@ -3,7 +3,6 @@
 
 #include "config.h"
 
-//void resetButtons();
 void readInputs();
 bool buttonPressed(int pin);
 int getButtonPressed();

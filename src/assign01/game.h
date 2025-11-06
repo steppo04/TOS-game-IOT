@@ -2,6 +2,8 @@
 #define GAME_H
 
 #include "config.h"
+#include "output.h"
+#include "input.h"
 
 enum GameState {
   STATE_IDLE,
