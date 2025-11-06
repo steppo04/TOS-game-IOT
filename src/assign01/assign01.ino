@@ -16,12 +16,14 @@ void setup() {
   lcdInit();
   showWelcomeMessage();
   attachInterrupt(digitalPinToInterrupt(BTN_B1), wakeUp,  RISING);
+  //resetButtons();
 }
 
 void wakeUp() {}
 
 
 void loop() {
+  //resetButtons();
   readInputs();
   switch (currentState) {
     case STATE_IDLE:
@@ -44,7 +46,7 @@ void loop() {
     case STATE_PLAYING:
       if (playRound()) {
         currentState = STATE_ROUND_OK;
-      } else if (isGameOver()) {
+      } else {
         currentState = STATE_GAME_OVER;
       }
       break;

@@ -45,8 +45,11 @@ void showGoodMessage() {
   lcd.clear();
   lcd.print("GOOD! Score: ");
   lcd.print(score);
-  int startTime=millis(); 
-  while(millis() - startTime < 4000) { /*wait*/ }
+  unsigned long startTime = millis();
+  while(millis() - startTime < 4000) {
+    readInputs();
+    //resetButtons();
+  }
 }
 
 void showSequenceOnLCD() {

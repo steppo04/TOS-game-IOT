@@ -14,7 +14,6 @@ enum GameState {
 void startGame();
 double setTimeLimitDifficulty();
 bool playRound();
-bool isGameOver();
 void handleGameOver();
 void generateSequence();
 

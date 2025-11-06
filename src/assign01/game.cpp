@@ -8,18 +8,18 @@ double F;
 int score;
 unsigned long timeLimit;
 unsigned long roundStartTime;
-bool gameOverFlag;
+unsigned long gaOvTime;
+unsigned long startTime;
 
 void startGame() {
   playerIndex = 0;
   score = 0;
-  gameOverFlag = false;
   F = setTimeLimitDifficulty();
   timeLimit = BASE_T1 * F;
   setTimeLimitDifficulty();
   lcd.clear();
   lcd.print("Go!");
-  int startTime=millis(); 
+  startTime=millis(); 
   while(millis() - startTime < 2000) { /*wait*/ }
 }
 
@@ -47,8 +47,9 @@ void generateSequence() {
 }
 
 bool playRound() {
+    //resetButtons();
     generateSequence();
-    showSequenceOnLCD(); //4231
+    showSequenceOnLCD();
 
     playerIndex= 0;
     roundStartTime=millis(); 
@@ -57,9 +58,11 @@ bool playRound() {
       readInputs();
       int pressed = getButtonPressed();
       if (pressed > 0) {
-        //Serial.println("btn pressed " + (String)pressed);
-        //Serial.println("btn computed " + (String)sequence[playerIndex]); 
-        //Serial.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        /*+++++DEBUG+++++
+        Serial.println("btn pressed " + (String)pressed);
+        Serial.println("btn computed " + (String)sequence[playerIndex]); 
+        Serial.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        /*+++++++++++++++*/
         if (pressed == sequence[playerIndex]) {
             playerIndex++;
             if (playerIndex == 4) {
@@ -68,19 +71,13 @@ bool playRound() {
                 return true;            
             }
         } else {
-            gameOverFlag=true;
             return false;    
         }    
       }
     }
-
-    gameOverFlag=true;
     return false;
 }
 
-bool isGameOver() {
-  return gameOverFlag;
-}
 
 void handleGameOver() {
   digitalWrite(LED_LS, HIGH);
@@ -89,7 +86,7 @@ void handleGameOver() {
   lcd.setCursor(0, 1);
   lcd.print("Score: ");
   lcd.print(score);
-  int gaOvTime=millis();
+  gaOvTime=millis();
   while(millis() - gaOvTime < 10000) {
     if (millis() - gaOvTime == 2000) {
         digitalWrite(LED_LS, LOW);
