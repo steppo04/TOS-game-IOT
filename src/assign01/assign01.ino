@@ -6,12 +6,14 @@
 #include <avr/interrupt.h>
 #include <avr/sleep.h>
 
-GameState currentState = STATE_IDLE;
-unsigned long lastActionTime = 0;
-bool justWakeUp = false;
+GameState currentState;
+unsigned long lastActionTime;
+bool justWakeUp;
 
 void setup() {
-  Serial.begin(9600);
+  currentState = STATE_IDLE;
+  lastActionTime = 0;
+  justWakeUp = false;
   initHardware();
   lcdInit();
   showWelcomeMessage();
@@ -69,8 +71,10 @@ void loop() {
   }
 }
 
+/*empty functions, just for the waking up after the deep sleep*/
 void wakeUp() {}
 
+/*Put the system into deep sleep mode*/
 void enterDeepSleep() {
   analogWrite(LED_LS, 0);
   lcd.clear();

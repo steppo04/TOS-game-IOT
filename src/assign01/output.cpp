@@ -7,10 +7,7 @@ int fadeAmount = 5;
 unsigned long lastPulseTime = 0;
 
 void initHardware() {
-  //Initialize led pin
   pinMode(LED_LS, OUTPUT);
-
-  //Initialize button pins
   pinMode(BTN_B1, INPUT);
   pinMode(BTN_B2, INPUT);
   pinMode(BTN_B3, INPUT);

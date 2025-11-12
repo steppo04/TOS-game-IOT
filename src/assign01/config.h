@@ -6,12 +6,10 @@
 
 /* Pin definitions */
 #define LED_LS 6
-
 #define BTN_B1 2
 #define BTN_B2 9
 #define BTN_B3 10
 #define BTN_B4 11
-
 #define POT_PIN A0
 
 /* Game parameters */
