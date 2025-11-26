@@ -1,0 +1,1 @@
+Turn on the Sequence!" (TOS): A fast-paced reaction game for Arduino. Players must replicate a 4-digit LED sequence using buttons against a dynamic, shrinking timer. This project is implemented in procedural C/C++ (Wiring framework) and uses a super-loop architecture.
